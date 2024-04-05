@@ -1,25 +1,31 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 // Define a home handler function which writes a byte slice containing
 // "Hello from Snippetbox" as the response body.
 func home(w http.ResponseWriter, r *http.Request) {
-
-	if r.URL.Path != "/" {
-		http.NotFound(w, r)
-		return
-	}
-
 	w.Write([]byte("Hello from Snippetbox"))
 }
 
 // Add a snippetView hanlder function.
 func snippetView(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Display a specific snippet..."))
+	id := r.PathValue("id")
+
+	idInt, err := strconv.Atoi(id)
+	if err != nil || idInt < 1 {
+		http.NotFound(w, r)
+		return
+	}
+
+	response := fmt.Sprintf("Display a specific snippet with ID: %d", idInt)
+
+	w.Write([]byte(response))
 }
 
 // Add a snippetCreate handler function.
@@ -29,8 +35,9 @@ func snippetCreate(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	mux := http.NewServeMux()
-	mux.HandleFunc("/", home)
-	mux.HandleFunc("/snippet", snippetView)
+	// Restrict this route to exact matches on / only.
+	mux.HandleFunc("/{$}", home)
+	mux.HandleFunc("/snippet/view/{id}", snippetView)
 	mux.HandleFunc("/snippet/create", snippetCreate)
 
 	log.Print("starting server on :4000")

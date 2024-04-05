@@ -10,12 +10,6 @@
   - Decentralized Code Management
   - Compatibility with Older Versions
 
-# The essentials of a web application
+## Routing Requests
 
-## What is a Handler?
-
-A function or method that processes HTTP requests in web applications.
-
-## Router/Servemux
-
-## Web server
+- It's better to skip using http.DefaultServeMux and those related helper functions. Go for your own servemux that's scoped just to your project.
