@@ -1,3 +1,3 @@
-module learning-go-00.rbravo.dev
+module snippetbox.rbravo.dev
 
 go 1.22.0
