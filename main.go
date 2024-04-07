@@ -18,22 +18,22 @@ func snippetView(w http.ResponseWriter, r *http.Request) {
 	id := r.PathValue("id")
 
 	idInt, err := strconv.Atoi(id)
+
 	if err != nil || idInt < 1 {
 		http.NotFound(w, r)
 		return
 	}
 
-	response := fmt.Sprintf("Display a specific snippet with ID: %d", idInt)
-
-	w.Write([]byte(response))
+	fmt.Fprintf(w, "Display a specific snippet with ID %d...", idInt)
 }
 
-// Add a snippetCreate handler function.
 func snippetCreate(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("Create a new snippet..."))
 }
 
 func snippetCreatePost(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusCreated)
+
 	w.Write([]byte("Save a new snippet..."))
 }
 
